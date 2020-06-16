@@ -11,7 +11,7 @@ app.use(express.json());
 const storage = multer.diskStorage({
   // ファイルの保存先を指定
   destination: function(req, file, cb) {
-    cb(null, "server/output");
+    cb(null, "server/image");
   },
   // ファイル名を指定(オリジナルのファイル名を指定)
   filename: function(req, file, cb) {
@@ -19,22 +19,16 @@ const storage = multer.diskStorage({
     // const imageName = `${Math.random()
     //   .toString(36)
     //   .slice(-9)}_${Date.now()}.txt`;
-    const imageName = file.originalname;
-    cb(null, imageName);
+    const fileName = file.originalname;
+    cb(null, fileName);
   }
 });
 
-const upload = multer({
+const uploadFile = multer({
   storage: storage
 }).single("file");
 
 app.post("/upload", (req, res) => {
-  let data = {
-    hoge: 100,
-    foo: 'a',
-    bar: true,
-  };
-
   fs.writeFile('server/output/usr' + req.body.id + '.json', JSON.stringify(req.body, null, '    '), (err) => {
     if (err) {
       return res.status(500).send("エラーが発生しました");
@@ -42,24 +36,25 @@ app.post("/upload", (req, res) => {
       return res.status(200).send("ファイルが正常に書き出しされました");
     }
   });
+});
 
-
-  // upload(req, res, err => {
-  //   if (err) {
-  //     //アップロード失敗した場合
-  //     res.json({
-  //       status: "error",
-  //       error: "fail to uplord image"
-  //     });
-  //   } else {
-  //     //アップロード成功した場合
-  //     res.json({
-  //       status: "sucess",
-  //       // ファイル名を返す
-  //       path: res.req.file.filename
-  //     });
-  //   }
-  // });
+app.post("/file", (req, res) => {
+  uploadFile(req, res, err => {
+    if (err) {
+      //アップロード失敗した場合
+      res.json({
+        status: "error",
+        error: "fail to uplord image"
+      });
+    } else {
+      //アップロード成功した場合
+      res.json({
+        status: "sucess",
+        // ファイル名を返す
+        path: res.req.file.filename
+      });
+    }
+  });
 });
 
 // Import and Set Nuxt.js options

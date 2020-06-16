@@ -36,7 +36,7 @@ export default {
             "content-type": "multipart/form-data",
           }
         };
-        let res = await axios.post("/upload", formData, config);
+        let res = await axios.post("/file", formData, config);
         console.log(res);
         if (res.data.status === "error") {
             alert(res.data.error);
@@ -70,7 +70,7 @@ export default {
             alert("登録完了")
         }
       } catch (error) {
-        alert("画像の送信に失敗しました");
+        alert("jsonの保存に失敗しました");
       }
 
     }
