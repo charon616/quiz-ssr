@@ -15,7 +15,7 @@
     "@nuxtjs/bulma": "^1.2.1",
     "axios": "^0.19.2",
     "cross-env": "^5.2.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "fs": "0.0.1-security",
     "multer": "^1.4.2",
     "nuxt": "^2.0.0",
